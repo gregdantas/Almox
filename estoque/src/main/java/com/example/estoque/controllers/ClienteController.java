@@ -20,7 +20,7 @@ public class ClienteController {
 	@Autowired
 	ClienteServices service;
 
-	@PostMapping(value = "novoCliente")
+	@PostMapping(value = "/novoCliente")
 	public Cliente novoCliente(@RequestBody Cliente cliente) {
 		Cliente novoRegistro = service.novoCliente(cliente);
 		return novoRegistro;
