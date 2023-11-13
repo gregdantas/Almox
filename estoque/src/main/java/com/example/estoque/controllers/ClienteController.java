@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +28,23 @@ public class ClienteController {
 
 	}
 
-	@GetMapping(value = "ListaDeClientes")
+	@GetMapping(value = "/ListaDeClientes")
 	public List<Cliente> getClientes() {
 		List<Cliente> todosClientes = new ArrayList<>();
 		todosClientes = service.getClientes();
-		return todosClientes;
+		return todosClientes ;
+		
+	
 	}
+	
+	@GetMapping(value = "/bucarId/{id}")
+	
+	public Cliente buscarId (@PathVariable Long id ) {
+        Cliente registro = service.finById(id) ; 
+		return registro ;
+		
+	}
+		 
+	}
+ 
 
-}

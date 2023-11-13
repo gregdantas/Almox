@@ -1,6 +1,7 @@
 package com.example.estoque.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,12 @@ public class ClienteServices {
 			if (registros.get(i).getNome().equals(c.getNome())) {
 				return false;
 			}
-		return true;
+		return true;	
+	}
+
+	public Cliente finById(Long id) {
+		Cliente resp = repository.getReferenceById(id);
+		return resp;
 	}
 
 }

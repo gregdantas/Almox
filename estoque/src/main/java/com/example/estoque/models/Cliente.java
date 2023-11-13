@@ -38,7 +38,7 @@ public class Cliente {
     @NotNull
     private String localidade ;
 	
-	
+		
 	
 	
 	
