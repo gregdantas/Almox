@@ -1,11 +1,11 @@
 package com.example.estoque.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.estoque.exceptions.NotFoundException;
 import com.example.estoque.models.Cliente;
 import com.example.estoque.repositories.ClienteRepository;
 
@@ -39,7 +39,7 @@ public class ClienteServices {
 	}
 
 	public Cliente finById(Long id) {
-		Cliente resp = repository.getReferenceById(id);
+		Cliente resp = repository.findById(id).orElseThrow(()-> new NotFoundException(" O id " + id + " não existe "));
 		return resp;
 	}
 

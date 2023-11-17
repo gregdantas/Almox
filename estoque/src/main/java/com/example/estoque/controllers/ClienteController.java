@@ -1,15 +1,20 @@
 package com.example.estoque.controllers;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.estoque.models.Cliente;
 import com.example.estoque.services.ClienteServices;
@@ -22,26 +27,23 @@ public class ClienteController {
 	ClienteServices service;
 
 	@PostMapping(value = "/novoCliente")
-	public Cliente novoCliente(@RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> novoCliente(@RequestBody Cliente cliente,UriComponentsBuilder uriBuilder) {
 		Cliente novoRegistro = service.novoCliente(cliente);
-		return novoRegistro;
-
+		URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(novoRegistro.getId()).toUri() ; 
+		return ResponseEntity.created(uri).body(novoRegistro) ; 
 	}
 
 	@GetMapping(value = "/ListaDeClientes")
-	public List<Cliente> getClientes() {
-		List<Cliente> todosClientes = new ArrayList<>();
-		todosClientes = service.getClientes();
-		return todosClientes ;
+	public 	ResponseEntity<List<Cliente>> getClientes() {
+     return	ResponseEntity.status(HttpStatus.OK).body(service.getClientes())	 ; 
 		
 	
 	}
 	
 	@GetMapping(value = "/bucarId/{id}")
 	
-	public Cliente buscarId (@PathVariable Long id ) {
-        Cliente registro = service.finById(id) ; 
-		return registro ;
+	public ResponseEntity<Cliente> buscarId (@PathVariable Long id ) {
+        return ResponseEntity.ok().body(service.finById(id));
 		
 	}
 		 
