@@ -1,24 +1,29 @@
 package com.example.estoque.controllers;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.estoque.models.Cliente;
+import com.example.estoque.repositories.ClienteRepository;
+import com.example.estoque.requests.AtualizarCliente;
 import com.example.estoque.services.ClienteServices;
+
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/cliente")
@@ -26,34 +31,45 @@ public class ClienteController {
 
 	@Autowired
 	ClienteServices service;
-
+    @Autowired
+	ClienteRepository repository; 
+    
+    
+    
 	@PostMapping(value = "/novoCliente")
-	public ResponseEntity<Cliente> novoCliente(@RequestBody Cliente cliente,UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<Cliente> novoCliente(@RequestBody @Valid Cliente cliente, UriComponentsBuilder uriBuilder) {
 		Cliente novoRegistro = service.novoCliente(cliente);
-		URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(novoRegistro.getId()).toUri() ; 
-		return ResponseEntity.created(uri).body(novoRegistro) ; 
+		URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(novoRegistro.getId()).toUri();
+		return ResponseEntity.created(uri).body(novoRegistro);
 	}
 
 	@GetMapping(value = "/ListaDeClientes")
-	public 	ResponseEntity<List<Cliente>> getClientes() {
-     return	ResponseEntity.status(HttpStatus.OK).body(service.getClientes())	 ; 
-		
-	
-	}
-	
-	@GetMapping(value = "/bucarId/{id}")
-	
-	public ResponseEntity<Cliente> buscarId (@PathVariable Long id ) {
-        return ResponseEntity.ok().body(service.finById(id));
-		
-	}
-	@DeleteMapping(value = "deletar/{id}")
-	
-	public ResponseEntity<List<Cliente>> deletar (@PathVariable Long id){
-		List<Cliente> lista = service.deletarPorId(id) ; 
-		return ResponseEntity.ok() .body(service.getClientes()); 
-	}
-		 
-	}
- 
+	public ResponseEntity<List<Cliente>> getClientes() {
+		return ResponseEntity.status(HttpStatus.OK).body(service.getClientes());
 
+	}
+
+	@GetMapping(value = "/bucarId/{id}")
+
+	public ResponseEntity<Cliente> buscarId(@PathVariable @Valid Long id) {
+		return ResponseEntity.ok().body(service.finById(id));
+
+	}
+
+	@DeleteMapping(value = "deletar/{id}")
+
+	public ResponseEntity<List<Cliente>> deletar(@PathVariable Long id) {
+
+		List<Cliente> lista = service.deletarPorId(id);
+		return ResponseEntity.ok().body(service.getClientes());
+	}
+	@PutMapping(value = "/atualizar/{id}")
+	@Transactional
+	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarCliente atualizaCliente) {
+		Cliente registroAtualizado  = service.atualizar(id, repository, atualizaCliente) ; 
+		return ResponseEntity.ok(new Cliente(atualizaCliente)) ;
+		
+		
+	}
+	
+}

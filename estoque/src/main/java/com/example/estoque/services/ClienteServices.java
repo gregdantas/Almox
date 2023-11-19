@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.estoque.exceptions.NotFoundException;
 import com.example.estoque.models.Cliente;
 import com.example.estoque.repositories.ClienteRepository;
+import com.example.estoque.requests.AtualizarCliente;
 
 @Service
 public class ClienteServices {
@@ -49,6 +50,14 @@ public class ClienteServices {
 			List<Cliente> lista = repository.findAll();
 			return lista;
 		 
+	}
+
+	public Cliente atualizar(Long id, ClienteRepository repository, AtualizarCliente atualizarRegistro) {
+        Cliente registroAtualizado = repository.getById(id);
+        registroAtualizado.setNome(atualizarRegistro.getNome());
+		registroAtualizado.setFranquia(atualizarRegistro.getFranquia());
+		registroAtualizado.setLocalidade(atualizarRegistro.getLocalidade());
+		return registroAtualizado;
 	}
 
 }
