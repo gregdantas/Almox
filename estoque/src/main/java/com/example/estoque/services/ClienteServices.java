@@ -35,12 +35,20 @@ public class ClienteServices {
 			if (registros.get(i).getNome().equals(c.getNome())) {
 				return false;
 			}
-		return true;	
+		return true;
 	}
 
 	public Cliente finById(Long id) {
-		Cliente resp = repository.findById(id).orElseThrow(()-> new NotFoundException(" O id " + id + " não existe "));
+		Cliente resp = repository.findById(id).orElseThrow(() -> new NotFoundException(" O id " + id + " não existe "));
 		return resp;
+	}
+
+	public List<Cliente> deletarPorId(Long id) {
+		Boolean test = repository.existsById(id);
+			repository.deleteById(id);
+			List<Cliente> lista = repository.findAll();
+			return lista;
+		 
 	}
 
 }
