@@ -43,11 +43,28 @@ public class Cliente {
     private String localidade ;
 	
 		
-	public Cliente(@Valid AtualizarCliente atualizaCliente) {
-		this.id = atualizaCliente.getId();
-		this.nome = atualizaCliente.getNome();
-		this.franquia = atualizaCliente.getFranquia();
-		this.localidade = atualizaCliente.getLocalidade();
+
+	public Cliente(@Valid Cliente registroAtualizado) {
+		this.id = registroAtualizado.getId();
+		this.nome = registroAtualizado.getNome();
+		this.franquia = registroAtualizado.getFranquia();
+		this.localidade = registroAtualizado.getLocalidade();	}
+
+
+
+	public void update(AtualizarCliente atualizarRegistro) {
+		this.id = (atualizarRegistro.getId()) ; 
+		this.nome = (atualizarRegistro.getNome()) ; 
+		this.franquia = (atualizarRegistro.getFranquia());
+		this.localidade = (atualizarRegistro.getLocalidade()) ; 
+		
+		
+		
+	
+		
 	}
+
+
+	
 	
 }

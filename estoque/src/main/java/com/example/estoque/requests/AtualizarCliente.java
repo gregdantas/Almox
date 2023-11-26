@@ -27,7 +27,7 @@ public class AtualizarCliente {
 	private String franquia;
 	@NotEmpty
 	@NotNull
-	private String localidade;
+	private String localidade; 
 	
 	
 	
@@ -38,8 +38,6 @@ public class AtualizarCliente {
 		cliente.setLocalidade(localidade);
 		return cliente ; 
 	}
-	
-	
 	
 
 }

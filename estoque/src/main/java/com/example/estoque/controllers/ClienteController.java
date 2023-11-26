@@ -61,13 +61,15 @@ public class ClienteController {
 	public ResponseEntity<List<Cliente>> deletar(@PathVariable Long id) {
 
 		List<Cliente> lista = service.deletarPorId(id);
-		return ResponseEntity.ok().body(service.getClientes());
+		return ResponseEntity.ok().body(lista);
 	}
 	@PutMapping(value = "/atualizar/{id}")
 	@Transactional
 	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarCliente atualizaCliente) {
-		Cliente registroAtualizado  = service.atualizar(id, repository, atualizaCliente) ; 
-		return ResponseEntity.ok(new Cliente(atualizaCliente)) ;
+		Cliente registroAtualizado  = new Cliente()  ; 
+		registroAtualizado = service.atualizarUm(id, repository, atualizaCliente) ; 
+		System.out.print(registroAtualizado) ; 
+		return ResponseEntity.ok(new Cliente (registroAtualizado)) ;
 		
 		
 	}

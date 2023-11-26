@@ -46,18 +46,37 @@ public class ClienteServices {
 
 	public List<Cliente> deletarPorId(Long id) {
 		Boolean test = repository.existsById(id);
+	        if(test == true) {
 			repository.deleteById(id);
 			List<Cliente> lista = repository.findAll();
-			return lista;
+			return lista;}
+	        return null ; 
 		 
 	}
 
 	public Cliente atualizar(Long id, ClienteRepository repository, AtualizarCliente atualizarRegistro) {
-        Cliente registroAtualizado = repository.getById(id);
-        registroAtualizado.setNome(atualizarRegistro.getNome());
-		registroAtualizado.setFranquia(atualizarRegistro.getFranquia());
-		registroAtualizado.setLocalidade(atualizarRegistro.getLocalidade());
-		return registroAtualizado;
-	}
+		Cliente registroAtualizado = new Cliente(); 
+		List<Cliente>lista = repository.findAll() ; 
+		for (int i = 0 ; i < lista.size(); i++) {
+			if(lista.get(i).getId().equals(atualizarRegistro.getId())){
+				return null ; 
+			}
+			    registroAtualizado = repository.getReferenceById(id) ; 
+				registroAtualizado.setId(atualizarRegistro.getId());
+		        registroAtualizado.setNome(atualizarRegistro.getNome());
+				registroAtualizado.setFranquia(atualizarRegistro.getFranquia());
+				registroAtualizado.setLocalidade(atualizarRegistro.getLocalidade());	
+		}
+		return registroAtualizado ; 
 
+		/* CORRIGIR RETORNO */
+	}
+	
+	public Cliente atualizarUm (Long id, ClienteRepository repository, AtualizarCliente atualizarRegistro) {
+		   Cliente registroAtualizado = repository.getReferenceById(id) ; 		
+            registroAtualizado.update(atualizarRegistro) ; 
+            return registroAtualizado ; 
+	}
+	
+	
 }
