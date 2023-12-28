@@ -39,12 +39,12 @@ public class ClienteController {
 	@PostMapping(value = "/novoCliente")
 	public ResponseEntity<Cliente> novoCliente(@RequestBody @Valid Cliente cliente, UriComponentsBuilder uriBuilder) {
 		Cliente novoRegistro = service.novoCliente(cliente);
-		URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(novoRegistro.getId()).toUri();
+		URI uri = uriBuilder.path("/cliente/{id}").buildAndExpand(novoRegistro.getId()).toUri();
 		return ResponseEntity.created(uri).body(novoRegistro);
 	}
 
 	@GetMapping(value = "/ListaDeClientes")
-	public ResponseEntity<List<Cliente>> getClientes() {
+	public ResponseEntity<List<Cliente>> listarClientes() {
 		return ResponseEntity.status(HttpStatus.OK).body(service.getClientes());
 
 	}
@@ -52,7 +52,7 @@ public class ClienteController {
 	@GetMapping(value = "/bucarId/{id}")
 
 	public ResponseEntity<Cliente> buscarId(@PathVariable @Valid Long id) {
-		return ResponseEntity.ok().body(service.finById(id));
+		return ResponseEntity.ok().body(service.findById(id));
 
 	}
 

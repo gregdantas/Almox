@@ -44,7 +44,7 @@ public class Cliente {
 	
 		
 
-	public Cliente(@Valid Cliente registroAtualizado) {
+	public Cliente( Cliente registroAtualizado) {
 		this.id = registroAtualizado.getId();
 		this.nome = registroAtualizado.getNome();
 		this.franquia = registroAtualizado.getFranquia();

@@ -2,26 +2,38 @@ package com.example.estoque.models;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Table;
 
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "Info_Categoria")
 public class Categoria {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@NotNull
+	private String nome;
 	
+	/*
+	 * private List<Colaborador> colaboradores ; private List<ProdutoDeConsumo>
+	 * produtos ;
+	 */
 	
-	  @Id
-      @GeneratedValue(strategy = GenerationType.IDENTITY)
-      private Long id ;
-	  @NotNull
-      @NotEmpty
-      private String nome; 
-	  @NotNull
-      @NotEmpty
-	  private Colaborador  colaboradores ;
-	  @NotNull
-//    @NotEmpty
-	  private List<ProdutoDeConsumo> produtos;
 
 }
