@@ -48,7 +48,7 @@ public class ClienteController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.getClientes());
 
 	}
-
+       
 	@GetMapping(value = "/bucarId/{id}")
 
 	public ResponseEntity<Cliente> buscarId(@PathVariable @Valid Long id) {
@@ -63,12 +63,11 @@ public class ClienteController {
 		List<Cliente> lista = service.deletarPorId(id);
 		return ResponseEntity.ok().body(lista);
 	}
-	@PutMapping(value = "/atualizar/{id}")
+	@PutMapping(value = "/atualizarCliente/{id}")
 	@Transactional
 	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarCliente atualizaCliente) {
 		Cliente registroAtualizado  = new Cliente()  ; 
 		registroAtualizado = service.atualizarUm(id, repository, atualizaCliente) ; 
-		System.out.print(registroAtualizado) ; 
 		return ResponseEntity.ok(new Cliente (registroAtualizado)) ;
 		
 		

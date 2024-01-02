@@ -31,13 +31,13 @@ public class AtualizarCliente {
 	
 	
 	
-	public Cliente update(Long id , ClienteRepository repo) {
-		Cliente cliente =repo.getReferenceById(id); 
-		cliente.setNome(this.nome);
-		cliente.setFranquia(this.franquia);
-		cliente.setLocalidade(localidade);
-		return cliente ; 
-	}
+//	public Cliente update(Long id , ClienteRepository repo) {
+//		Cliente cliente =repo.getReferenceById(id); 
+//		cliente.setNome(this.nome);
+//		cliente.setFranquia(this.franquia);
+//		cliente.setLocalidade(localidade);
+//		return cliente ; 
+	//}
 	
 
 }

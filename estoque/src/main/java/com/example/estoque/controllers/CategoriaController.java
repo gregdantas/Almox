@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.estoque.models.Categoria;
+import com.example.estoque.repositories.CategoriaRepository;
+import com.example.estoque.requests.AtualizarCategoria;
 import com.example.estoque.services.CategoriaServices;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
@@ -25,6 +29,7 @@ import jakarta.validation.Valid;
 public class CategoriaController {
 	@Autowired
 	CategoriaServices service;
+	CategoriaRepository repository;
 
 	@PostMapping(value = "/novaCategoria")
 	public ResponseEntity<Categoria> novaCategoria(@RequestBody @Valid Categoria categoria,
@@ -47,12 +52,22 @@ public class CategoriaController {
 
 	}
 
-	
 	@DeleteMapping(value = "deletar/{id}")
-	public ResponseEntity<Categoria> deletar(@PathVariable Long id){
-		Categoria categoria = service.deletarCategoriaPorId(id) ; 
-		return ResponseEntity.ok().body(categoria) ; 
+	public ResponseEntity<Categoria> deletar(@PathVariable Long id) {
+		Categoria categoria = service.deletarCategoriaPorId(id);
+		return ResponseEntity.ok().body(categoria);
 	}
+
+	@PutMapping(value = "atualizarCategoria/{id}")
+	@Transactional
+	public ResponseEntity<Categoria> atualizar(@PathVariable Long id,@RequestBody @Valid AtualizarCategoria atualizarCategoria) {
+		Categoria registroAtualizado = new Categoria();
+		registroAtualizado = service.atualizarPorId(id,atualizarCategoria);
+		return ResponseEntity.ok(new Categoria(registroAtualizado));
+
+	}
+
 	
+	
+
 }
- 

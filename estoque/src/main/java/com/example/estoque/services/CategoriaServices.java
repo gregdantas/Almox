@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.estoque.exceptions.NotFoundException;
 import com.example.estoque.models.Categoria;
 import com.example.estoque.repositories.CategoriaRepository;
+import com.example.estoque.requests.AtualizarCategoria;
 
 import jakarta.validation.Valid;
 
@@ -43,19 +44,27 @@ public class CategoriaServices {
 	}
 
 	public Categoria findById(@Valid Long id) {
-		Categoria categoria = repository.findById(id).orElseThrow(()-> new NotFoundException(" O id " + id + " não existe "));
+		Categoria categoria = repository.findById(id)
+				.orElseThrow(() -> new NotFoundException(" O id " + id + " não existe "));
 		return categoria;
 	}
 
 	public Categoria deletarCategoriaPorId(Long id) {
-		Categoria categoria ; 
-		Boolean test = repository.existsById(id) ; 
-		if(test == true) {
+		Categoria categoria;
+		Boolean test = repository.existsById(id);
+		if (test == true) {
 			repository.deleteById(id);
 		}
-		return null ; 
-		
+		return null;
+
 	}
-	
-	
+
+	public Categoria atualizarPorId(Long id, AtualizarCategoria atualizarCategoria) {
+		Categoria registroAtualizado = repository.getById(id);
+		registroAtualizado.atualizar(atualizarCategoria);
+		return registroAtualizado;
+	}
+
+
+
 }

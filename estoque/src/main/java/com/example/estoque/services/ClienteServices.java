@@ -74,9 +74,9 @@ public class ClienteServices {
 	}
 
 	public Cliente atualizarUm(Long id, ClienteRepository repository, AtualizarCliente atualizarRegistro) {
-		Cliente registroAtualizado = repository.getReferenceById(id);
-		registroAtualizado.update(atualizarRegistro);
-		return registroAtualizado;
+		Cliente registro = repository.getReferenceById(id);
+		registro.update(atualizarRegistro);
+		return registro;
 	}
 
 }
