@@ -31,11 +31,9 @@ public class ClienteController {
 
 	@Autowired
 	ClienteServices service;
-    @Autowired
-	ClienteRepository repository; 
-    
-    
-    
+	@Autowired
+	ClienteRepository repository;
+
 	@PostMapping(value = "/novoCliente")
 	public ResponseEntity<Cliente> novoCliente(@RequestBody @Valid Cliente cliente, UriComponentsBuilder uriBuilder) {
 		Cliente novoRegistro = service.novoCliente(cliente);
@@ -48,7 +46,7 @@ public class ClienteController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.getClientes());
 
 	}
-       
+
 	@GetMapping(value = "/bucarId/{id}")
 
 	public ResponseEntity<Cliente> buscarId(@PathVariable @Valid Long id) {
@@ -59,18 +57,17 @@ public class ClienteController {
 	@DeleteMapping(value = "deletar/{id}")
 
 	public ResponseEntity<List<Cliente>> deletar(@PathVariable Long id) {
-
 		List<Cliente> lista = service.deletarPorId(id);
 		return ResponseEntity.ok().body(lista);
 	}
+
 	@PutMapping(value = "/atualizarCliente/{id}")
 	@Transactional
 	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarCliente atualizaCliente) {
-		Cliente registroAtualizado  = new Cliente()  ; 
-		registroAtualizado = service.atualizarUm(id, repository, atualizaCliente) ; 
-		return ResponseEntity.ok(new Cliente (registroAtualizado)) ;
-		
-		
+		Cliente registroAtualizado = new Cliente();
+		registroAtualizado = service.atualizarUm(id, repository, atualizaCliente);
+		return ResponseEntity.ok(new Cliente(registroAtualizado));
+
 	}
-	
+
 }

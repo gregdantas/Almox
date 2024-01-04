@@ -44,23 +44,20 @@ public class CategoriaServices {
 	}
 
 	public Categoria findById(@Valid Long id) {
-		Categoria categoria = repository.findById(id)
-				.orElseThrow(() -> new NotFoundException(" O id " + id + " não existe "));
+		Categoria categoria = repository.findById(id).orElseThrow(() -> new NotFoundException(" O id " + id + " não existe "));
 		return categoria;
 	}
 
-	public Categoria deletarCategoriaPorId(Long id) {
-		Categoria categoria;
-		Boolean test = repository.existsById(id);
-		if (test == true) {
-			repository.deleteById(id);
-		}
-		return null;
-
+	public List<Categoria> deletarCategoriaPorId(Long id) {
+		repository.findById(id).orElseThrow(() -> new NotFoundException(" O id " + id + " não existe ")); 
+		repository.deleteById(id);
+		List<Categoria> lista = repository.findAll() ; 
+        return lista ; 
 	}
 
 	public Categoria atualizarPorId(Long id, AtualizarCategoria atualizarCategoria) {
-		Categoria registroAtualizado = repository.getById(id);
+		Categoria registroAtualizado = repository.findById(id).orElseThrow(()-> new NotFoundException(" O id " + id + " não existe "));
+		registroAtualizado = repository.getReferenceById(id);
 		registroAtualizado.atualizar(atualizarCategoria);
 		return registroAtualizado;
 	}

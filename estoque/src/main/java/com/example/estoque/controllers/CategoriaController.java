@@ -53,8 +53,8 @@ public class CategoriaController {
 	}
 
 	@DeleteMapping(value = "deletar/{id}")
-	public ResponseEntity<Categoria> deletar(@PathVariable Long id) {
-		Categoria categoria = service.deletarCategoriaPorId(id);
+	public ResponseEntity<List<Categoria>> deletar(@PathVariable Long id) {
+		List<Categoria> categoria = service.deletarCategoriaPorId(id);
 		return ResponseEntity.ok().body(categoria);
 	}
 
