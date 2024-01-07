@@ -36,7 +36,7 @@ public class ClienteController {
 
 	@PostMapping(value = "/novoCliente")
 	public ResponseEntity<Cliente> novoCliente(@RequestBody @Valid Cliente cliente, UriComponentsBuilder uriBuilder) {
-		Cliente novoRegistro = service.novoCliente(cliente);
+		Cliente novoRegistro = service.cadastrarCliente(cliente);
 		URI uri = uriBuilder.path("/cliente/{id}").buildAndExpand(novoRegistro.getId()).toUri();
 		return ResponseEntity.created(uri).body(novoRegistro);
 	}
@@ -50,22 +50,22 @@ public class ClienteController {
 	@GetMapping(value = "/bucarId/{id}")
 
 	public ResponseEntity<Cliente> buscarId(@PathVariable @Valid Long id) {
-		return ResponseEntity.ok().body(service.findById(id));
+		return ResponseEntity.ok().body(service.buscarClientePorId(id));
 
 	}
 
 	@DeleteMapping(value = "deletar/{id}")
 
 	public ResponseEntity<List<Cliente>> deletar(@PathVariable Long id) {
-		List<Cliente> lista = service.deletarPorId(id);
-		return ResponseEntity.ok().body(lista);
+		//List<Cliente> listaDeClientes = service.deletarPorId(id);
+		return ResponseEntity.ok().body(service.deletarPorId(id));
 	}
 
 	@PutMapping(value = "/atualizarCliente/{id}")
 	@Transactional
 	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarCliente atualizaCliente) {
 		Cliente registroAtualizado = new Cliente();
-		registroAtualizado = service.atualizarUm(id, repository, atualizaCliente);
+		registroAtualizado = service.atualizarCliente(id, atualizaCliente);
 		return ResponseEntity.ok(new Cliente(registroAtualizado));
 
 	}

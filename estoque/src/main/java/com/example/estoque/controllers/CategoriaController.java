@@ -54,8 +54,7 @@ public class CategoriaController {
 
 	@DeleteMapping(value = "deletar/{id}")
 	public ResponseEntity<List<Categoria>> deletar(@PathVariable Long id) {
-		List<Categoria> categoria = service.deletarCategoriaPorId(id);
-		return ResponseEntity.ok().body(categoria);
+		return ResponseEntity.ok().body(service.deletarCategoriaPorId(id));
 	}
 
 	@PutMapping(value = "atualizarCategoria/{id}")
