@@ -2,16 +2,16 @@ package com.example.estoque.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.estoque.exceptions.NotFoundException;
-import com.example.estoque.models.Cliente;
 import com.example.estoque.models.Colaborador;
 import com.example.estoque.repositories.ColaboradorRepository;
 
 @Service
 public class ColaboradorServices {
-	
+	@Autowired
 	ColaboradorRepository repository ;
 	
 	
@@ -25,12 +25,26 @@ public class ColaboradorServices {
 	public Colaborador buscarPorId(Long id){
 		Colaborador colaboradorLocal = repository.findById(id).orElseThrow(() -> new NotFoundException(" O id " + id + " não existe "));
 		return colaboradorLocal;
-	
-		
-		
-		
 		
 	}
-	
 
+
+	public Colaborador cadastrarColaborador(Colaborador colaborador) {
+		 if(comparar(colaborador) == false) {
+			repository.save(colaborador) ; 
+			return colaborador ;
+			
+		}
+		return null;
+	}
+
+	private boolean comparar(Colaborador colaborador) {
+		List<Colaborador>registros = repository.findAll();
+		for(Colaborador i : registros)
+			if(i.getNome().equals(colaborador.getNome())) {
+		return true;
+	}
+		return false;
+
+	}
 }
