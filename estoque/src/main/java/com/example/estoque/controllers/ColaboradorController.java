@@ -9,14 +9,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.estoque.models.Colaborador;
+import com.example.estoque.requests.AtualizarColaborador;
 import com.example.estoque.services.ColaboradorServices;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
@@ -44,8 +47,14 @@ class ColaboradorController {
 		Colaborador novoRegistro = service.cadastrarColaborador(colaborador) ; 
 		URI uri = uriBuilder.path("/colaborador/{id}").buildAndExpand(novoRegistro.getId()).toUri();
 		return ResponseEntity.created(uri).body(novoRegistro);
+	}
 	
-	
+	@PutMapping(value = "/atualizarColaborador/{id}")
+	@Transactional
+	public ResponseEntity<Colaborador>atualizarColaborador(@PathVariable Long id,@RequestBody  @Valid AtualizarColaborador atualizarColaborador){
+		 Colaborador registroAtualizado = new Colaborador() ; 
+		 registroAtualizado = service.atualizarColaborador (id, atualizarColaborador) ; 
+		return ResponseEntity.ok(new Colaborador(atualizarColaborador));
 	}
 	
 }

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.example.estoque.exceptions.NotFoundException;
 import com.example.estoque.models.Colaborador;
 import com.example.estoque.repositories.ColaboradorRepository;
+import com.example.estoque.requests.AtualizarColaborador;
+
+import jakarta.validation.Valid;
 
 @Service
 public class ColaboradorServices {
@@ -46,5 +49,12 @@ public class ColaboradorServices {
 	}
 		return false;
 
+	}
+
+
+	public Colaborador atualizarColaborador(Long id, @Valid AtualizarColaborador atualizarColaborador) {
+		Colaborador registro = repository.findById(id).orElseThrow(() -> new NotFoundException(" O id " + id + " não existe ")) ; 
+		registro.update(atualizarColaborador) ; 
+		return registro;
 	}
 }

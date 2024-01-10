@@ -1,10 +1,13 @@
 package com.example.estoque.models;
 
+import com.example.estoque.requests.AtualizarColaborador;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,5 +36,16 @@ public class Colaborador {
 	@NotEmpty
     @NotNull
     private String cpf ;
+	
+	
+	public void update(@Valid AtualizarColaborador atualizarColaborador) {
+		this.id = atualizarColaborador.getId() ; 
+		this.nome = atualizarColaborador.getNome();
+		this.cpf = atualizarColaborador.getCpf() ; 
+	}
 
+	public Colaborador(AtualizarColaborador atualizarColaborador) {
+		this.id = atualizarColaborador.getId() ; 
+		this.nome = atualizarColaborador.getNome();
+		this.cpf = atualizarColaborador.getCpf() ; 	}
 }
