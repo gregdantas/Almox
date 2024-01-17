@@ -57,4 +57,12 @@ public class ColaboradorServices {
 		registro.update(atualizarColaborador) ; 
 		return registro;
 	}
+
+
+	public List<Colaborador> deletarColaboradorPorId(Long id) {
+		repository.findById(id).orElseThrow(() -> new NotFoundException(" O id " + id + " não existe ")) ;
+		repository.deleteById(id) ; 
+		return repository.findAll() ; 
+		
+	}
 }

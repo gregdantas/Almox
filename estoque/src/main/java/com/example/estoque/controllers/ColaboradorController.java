@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,34 +28,42 @@ import jakarta.validation.Valid;
 class ColaboradorController {
 
 	@Autowired
-	ColaboradorServices service ; 
-	
+	ColaboradorServices service;
 
-	
 	@GetMapping(value = "/listarColaborador")
-	public ResponseEntity<List<Colaborador>> listar(){
-	return ResponseEntity.status(HttpStatus.OK).body(service.findAll()) ; 
+	public ResponseEntity<List<Colaborador>> listar() {
+		return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
 	}
-	
-    @GetMapping(value = "/buscarColaboradorPorId/{id}")
-    public ResponseEntity<Colaborador> buscarPorId(@PathVariable @Valid Long id){
-    	return ResponseEntity.ok().body(service.buscarPorId(id)) ; 
-    	
-    }
-	
+
+	@GetMapping(value = "/buscarColaboradorPorId/{id}")
+	public ResponseEntity<Colaborador> buscarPorId(@PathVariable @Valid Long id) {
+		return ResponseEntity.ok().body(service.buscarPorId(id));
+
+	}
+
 	@PostMapping(value = "/novoColaborador")
-	public ResponseEntity<Colaborador>novoColaborador(@RequestBody @Valid Colaborador colaborador,UriComponentsBuilder uriBuilder){
-		Colaborador novoRegistro = service.cadastrarColaborador(colaborador) ; 
+	public ResponseEntity<Colaborador> novoColaborador(@RequestBody @Valid Colaborador colaborador,
+			UriComponentsBuilder uriBuilder) {
+		Colaborador novoRegistro = service.cadastrarColaborador(colaborador);
 		URI uri = uriBuilder.path("/colaborador/{id}").buildAndExpand(novoRegistro.getId()).toUri();
 		return ResponseEntity.created(uri).body(novoRegistro);
 	}
-	
+
 	@PutMapping(value = "/atualizarColaborador/{id}")
 	@Transactional
-	public ResponseEntity<Colaborador>atualizarColaborador(@PathVariable Long id,@RequestBody  @Valid AtualizarColaborador atualizarColaborador){
-		 Colaborador registroAtualizado = new Colaborador() ; 
-		 registroAtualizado = service.atualizarColaborador (id, atualizarColaborador) ; 
+	public ResponseEntity<Colaborador> atualizarColaborador(@PathVariable Long id,
+			@RequestBody @Valid AtualizarColaborador atualizarColaborador) {
+		Colaborador registroAtualizado = new Colaborador();
+		registroAtualizado = service.atualizarColaborador(id, atualizarColaborador);
 		return ResponseEntity.ok(new Colaborador(atualizarColaborador));
 	}
-	
+
+	@DeleteMapping(value = "/deletarColaborador/{id}")
+
+	public ResponseEntity<List<Colaborador>> deletar(@PathVariable Long id) {
+		List<Colaborador> lista = service.deletarColaboradorPorId(id);
+		return ResponseEntity.ok(lista);
+
+	}
+
 }
